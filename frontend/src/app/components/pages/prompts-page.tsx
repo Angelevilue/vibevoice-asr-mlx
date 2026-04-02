@@ -224,8 +224,7 @@ export function PromptsPage({
                                   variant="ghost"
                                   size="icon"
                                   onClick={() => handleEdit(prompt)}
-                                  disabled={prompt.isDefault}
-                                  title={prompt.isDefault ? '默认提示词不可编辑' : '编辑'}
+                                  title="编辑"
                                 >
                                   <Edit2 className="w-4 h-4" />
                                 </Button>

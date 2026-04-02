@@ -125,7 +125,7 @@ export function TranscribePage({
                   value={timeout}
                   onChange={(e) => onTimeoutChange(Number(e.target.value))}
                   disabled={isTranscribing}
-                  className="border-2 h-12 text-base"
+                  className="border-2 h-12 text-base text-center bg-background"
                 />
                 <p className="text-sm text-muted-foreground">
                   演示模式下实际使用 {timeout} 秒
@@ -154,7 +154,7 @@ export function TranscribePage({
               {isTranscribing && (
                 <div className="space-y-3">
                   <Progress value={progress} className="h-3" />
-                  <p className="text-base text-center text-muted-foreground">{progress}%</p>
+                  <p className="text-base text-center text-muted-foreground">{progress.toFixed(2)}%</p>
                 </div>
               )}
 

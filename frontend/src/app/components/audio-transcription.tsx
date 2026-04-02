@@ -36,7 +36,7 @@ const DEFAULT_PROMPTS: SystemPrompt[] = [
 export function AudioTranscription() {
   const [currentPage, setCurrentPage] = useState<PageView>('transcribe');
   const [audioFile, setAudioFile] = useState<File | null>(null);
-  const [timeout, setTimeout] = useState<number>(5);
+  const [timeout, setTimeout] = useState<number>(1800);
   const [isTranscribing, setIsTranscribing] = useState(false);
   const [progress, setProgress] = useState(0);
   const [transcriptionText, setTranscriptionText] = useState('');
