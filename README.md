@@ -146,11 +146,49 @@ The server automatically detects audio format from file headers, not file extens
 ├── client.py          # Client script
 ├── server.py          # Server script
 ├── requirements.txt   # Python dependencies
+├── frontend/          # React frontend
+│   ├── src/
+│   │   ├── components/   # React components
+│   │   ├── services/     # API services
+│   │   └── app/           # Main application
+│   ├── package.json
+│   └── vite.config.ts
 ├── LICENSE            # MIT License
 ├── README.md          # This file
 ├── README_zh.md       # Chinese documentation
 └── examples/         # Example audio files
 ```
+
+## Frontend (React SPA)
+
+A modern web interface is included in the `frontend/` directory.
+
+### Features
+
+- **Drag & drop audio upload**: Support for WAV, MP3, M4A, OGG, FLAC
+- **Real-time transcription**: Visual progress tracking
+- **AI processing**: Process transcriptions with customizable system prompts
+- **Dark/Light mode**: Theme toggle support
+- **Multiple export formats**: PDF, Markdown, TXT, JSON
+- **History management**: Browse and re-process past transcriptions
+
+### Setup
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+The frontend development server runs on `http://localhost:5173` and connects to the backend at `http://localhost:8765`.
+
+### Tech Stack
+
+- React 18 + TypeScript
+- Vite build tool
+- TailwindCSS
+- Radix UI components
+- jsPDF for PDF export
 
 ## License
 

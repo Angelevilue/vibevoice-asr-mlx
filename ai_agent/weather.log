@@ -1,0 +1,2 @@
+2026-04-02 17:00:36,321 - WARNING - caiyun_weather_tools_async - 缺少环境变量 CAIYUN_WEATHER_API_KEY，请在 .env 文件中配置
+2026-04-02 17:03:02,488 - WARNING - caiyun_weather_tools_async - 缺少环境变量 CAIYUN_WEATHER_API_KEY，请在 .env 文件中配置

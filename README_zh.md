@@ -146,11 +146,49 @@ python client.py audio.wav --raw
 ├── client.py          # 客户端脚本
 ├── server.py          # 服务端脚本
 ├── requirements.txt   # Python 依赖
+├── frontend/          # React 前端
+│   ├── src/
+│   │   ├── components/   # React 组件
+│   │   ├── services/     # API 服务
+│   │   └── app/           # 主应用
+│   ├── package.json
+│   └── vite.config.ts
 ├── LICENSE            # MIT 许可证
 ├── README.md          # 英文文档
 ├── README_zh.md       # 中文文档
 └── examples/         # 示例音频文件
 ```
+
+## 前端 (React 单页应用)
+
+项目包含一个现代化的网页界面，位于 `frontend/` 目录。
+
+### 功能特点
+
+- **拖拽上传音频**：支持 WAV、MP3、M4A、OGG、FLAC
+- **实时转录**：可视化的进度跟踪
+- **AI 智能处理**：使用可自定义的系统提示词处理转录内容
+- **深色/浅色模式**：支持主题切换
+- **多种导出格式**：PDF、Markdown、TXT、JSON
+- **历史记录管理**：浏览和重新处理过往的转录记录
+
+### 快速开始
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+前端开发服务器运行在 `http://localhost:5173`，连接后端服务 `http://localhost:8765`。
+
+### 技术栈
+
+- React 18 + TypeScript
+- Vite 构建工具
+- TailwindCSS
+- Radix UI 组件库
+- jsPDF PDF 导出
 
 ## 许可证
 
