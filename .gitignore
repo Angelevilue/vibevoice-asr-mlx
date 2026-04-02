@@ -1,0 +1,36 @@
+# macOS
+.DS_Store
+.AppleDouble
+._*
+
+# Audio files
+*.mp3
+*.wav
+*.m4a
+*.ogg
+*.flac
+*.aac
+
+# Output files
+*.txt
+output.txt
+transcript*
+
+# Temporary files
+*.tmp
+*.temp
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# IDE
+.vscode/
+.idea/
+
+# Environment
+.env
+venv/
+env/
