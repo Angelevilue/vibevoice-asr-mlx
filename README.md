@@ -176,6 +176,21 @@ A modern web interface is included in the `frontend/` directory.
 - **Dark/Light mode**: Theme toggle support
 - **Multiple export formats**: PDF, Markdown, TXT, JSON
 - **History management**: Browse, select and export past transcriptions
+- **Configurable AI models**: Support for Doubao, Qwen, and DeepSeek
+
+### Screenshots
+
+**Audio Transcription**
+![Audio Transcription](images/音频转录.png)
+
+**AI Processing**
+![AI Processing](images/AI处理.png)
+
+**Prompt Management**
+![Prompt Management](images/提示词管理.png)
+
+**History**
+![History](images/历史记录.png)
 
 ### Setup
 
