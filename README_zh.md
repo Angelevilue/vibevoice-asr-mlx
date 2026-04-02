@@ -153,6 +153,10 @@ python client.py audio.wav --raw
 │   │   └── app/           # 主应用
 │   ├── package.json
 │   └── vite.config.ts
+├── ai_agent/          # AI Agent 服务
+│   ├── ai_agent_server.py  # FastAPI 服务
+│   ├── llm_engine.py    # 流式 Agent 逻辑
+│   └── requirements.txt # AI Agent 依赖
 ├── LICENSE            # MIT 许可证
 ├── README.md          # 英文文档
 ├── README_zh.md       # 中文文档
@@ -189,6 +193,48 @@ npm run dev
 - TailwindCSS
 - Radix UI 组件库
 - jsPDF PDF 导出
+
+## AI Agent 服务
+
+`ai_agent/` 目录包含一个 FastAPI 服务，提供基于可自定义系统提示词的 AI 文本处理能力。
+
+### 环境配置
+
+```bash
+cd ai_agent
+pip install -r requirements.txt
+```
+
+### 启动服务
+
+```bash
+python ai_agent_server.py
+```
+
+AI Agent 服务运行在 `http://localhost:8766`。
+
+### API 接口
+
+| 接口 | 方法 | 说明 |
+|------|------|------|
+| `/health` | GET | 健康检查 |
+| `/ai-process` | POST | 使用提示词处理转录文本 |
+
+### 请求格式
+
+```json
+{
+  "transcription": "转录文本...",
+  "prompt": "系统提示词内容...",
+  "session_id": "可选会话ID"
+}
+```
+
+### 系统架构
+
+```
+前端 (5173) → AI Agent 服务 (8766) → 大模型 (DeepSeek/Volcengine)
+```
 
 ## 许可证
 

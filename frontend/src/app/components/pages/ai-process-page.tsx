@@ -65,9 +65,9 @@ export function AIProcessPage({
             </CardContent>
           </Card>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[calc(100vh-200px)]">
             {/* 转录文本 */}
-            <Card className="border-2 backdrop-blur-sm bg-background/50 shadow-2xl flex flex-col">
+            <Card className="border-2 backdrop-blur-sm bg-background/50 shadow-2xl flex flex-col min-h-0">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div>
@@ -86,24 +86,32 @@ export function AIProcessPage({
                   </Button>
                 </div>
               </CardHeader>
-              <CardContent className="flex-1 flex flex-col">
-                <Textarea
-                  value={transcriptionText}
-                  onChange={(e) => onTranscriptionChange(e.target.value)}
-                  className="flex-1 resize-none border-2 font-mono text-sm min-h-[400px]"
-                />
+              <CardContent className="flex-1 flex flex-col min-h-0 overflow-hidden">
+                <div className="flex-1 overflow-y-auto border-2 border-input rounded-lg min-h-0">
+                  <Textarea
+                    value={transcriptionText}
+                    onChange={(e) => onTranscriptionChange(e.target.value)}
+                    className="w-full h-full resize-none border-0 font-mono text-sm bg-transparent"
+                    style={{ minHeight: '100%' }}
+                  />
+                </div>
                 
                 <div className="mt-6">
                   <Button
                     className="w-full h-14 bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-700 hover:to-orange-700 text-white border-0 shadow-lg text-lg"
                     size="lg"
                     onClick={onProcess}
-                    disabled={!selectedPrompt || isProcessing}
+                    disabled={isProcessing}
                   >
                     {isProcessing ? (
                       <>
                         <Loader2 className="w-5 h-5 mr-2 animate-spin" />
                         AI 处理中...
+                      </>
+                    ) : !selectedPrompt ? (
+                      <>
+                        <Sparkles className="w-5 h-5 mr-2" />
+                        请先选择提示词
                       </>
                     ) : (
                       <>
@@ -117,7 +125,7 @@ export function AIProcessPage({
             </Card>
 
             {/* AI 处理结果 */}
-            <Card className="border-2 backdrop-blur-sm bg-background/50 shadow-2xl flex flex-col">
+            <Card className="border-2 backdrop-blur-sm bg-background/50 shadow-2xl flex flex-col min-h-0">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div>
@@ -140,14 +148,17 @@ export function AIProcessPage({
                   )}
                 </div>
               </CardHeader>
-              <CardContent className="flex-1 flex flex-col">
-                <Textarea
-                  value={aiResult}
-                  onChange={(e) => onAIResultChange(e.target.value)}
-                  placeholder="AI 处理结果将显示在这里..."
-                  className="flex-1 resize-none border-2 border-yellow-500/30 bg-yellow-500/5 font-mono text-sm min-h-[400px]"
-                  disabled={!aiResult}
-                />
+              <CardContent className="flex-1 flex flex-col min-h-0 overflow-hidden">
+                <div className="flex-1 overflow-y-auto border-2 border-yellow-500/30 bg-yellow-500/5 rounded-lg min-h-0">
+                  <Textarea
+                    value={aiResult}
+                    onChange={(e) => onAIResultChange(e.target.value)}
+                    placeholder="AI 处理结果将显示在这里..."
+                    className="w-full h-full resize-none border-0 bg-transparent font-mono text-sm"
+                    style={{ minHeight: '100%' }}
+                    disabled={!aiResult}
+                  />
+                </div>
 
                 {aiResult && (
                   <div className="mt-6">
