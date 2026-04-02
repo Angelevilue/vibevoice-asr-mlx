@@ -19,6 +19,18 @@ print("Model loaded and ready!")
 
 
 class TranscriptionHandler(BaseHTTPRequestHandler):
+    def _set_cors_headers(self):
+        """Set CORS headers for all responses"""
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type, X-Format")
+
+    def do_OPTIONS(self):
+        """Handle CORS preflight requests"""
+        self.send_response(200)
+        self._set_cors_headers()
+        self.end_headers()
+
     def do_POST(self):
         if self.path != "/transcribe":
             self.send_error(404, "Not Found")
@@ -81,18 +93,25 @@ class TranscriptionHandler(BaseHTTPRequestHandler):
                         print(line, flush=True)
 
             # Get audio duration from segments
-            audio_duration = result.segments[0]['end'] if result.segments else 0
+            audio_duration = result.segments[0]['end'] if result.segments and len(result.segments) > 0 else 0
             processing_time = getattr(result, 'total_time', 0)
 
             # Send response with timing info in headers
             self.send_response(200)
+            self._set_cors_headers()
             self.send_header("Content-Type", "text/plain; charset=utf-8")
             self.send_header("X-Text-Length", str(len(result.text)))
             self.send_header("X-Audio-Duration", f"{audio_duration:.2f}")
             self.send_header("X-Processing-Time", f"{processing_time:.2f}")
             self.end_headers()
             self.wfile.write(result.text.encode("utf-8"))
-            print(f"Done! {len(result.text)} chars | {audio_duration:.1f}s | {processing_time:.2f}s | {result.segments[0]['text'][:50]}...", flush=True)
+
+            # Safely access segments for logging
+            if result.segments and len(result.segments) > 0:
+                text_preview = result.segments[0].get('text', '')[:50]
+            else:
+                text_preview = "(no segments)"
+            print(f"Done! {len(result.text)} chars | {audio_duration:.1f}s | {processing_time:.2f}s | {text_preview}...", flush=True)
 
         except Exception as e:
             sys.stdout = old_stdout
@@ -105,6 +124,7 @@ class TranscriptionHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         if self.path == "/health":
             self.send_response(200)
+            self._set_cors_headers()
             self.send_header("Content-Type", "text/plain")
             self.end_headers()
             self.wfile.write(b"OK")
