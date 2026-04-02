@@ -176,6 +176,21 @@ python client.py audio.wav --raw
 - **深色/浅色模式**：支持主题切换
 - **多种导出格式**：PDF、Markdown、TXT、JSON
 - **历史记录管理**：浏览、选择和导出过往的转录记录
+- **可配置 AI 模型**：支持豆包、千问、DeepSeek
+
+### 页面截图
+
+**音频转录**
+![音频转录](images/音频转录.png)
+
+**AI 处理**
+![AI 处理](images/AI处理.png)
+
+**提示词管理**
+![提示词管理](images/提示词管理.png)
+
+**历史记录**
+![历史记录](images/历史记录.png)
 
 ### 快速开始
 
