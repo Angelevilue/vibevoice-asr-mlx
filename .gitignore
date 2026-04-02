@@ -3,13 +3,16 @@
 .AppleDouble
 ._*
 
-# Audio files
+# Audio files (except examples/)
 *.mp3
 *.wav
 *.m4a
 *.ogg
 *.flac
 *.aac
+!examples/*.mp3
+!examples/*.wav
+!examples/*.m4a
 
 # Output files
 *.txt

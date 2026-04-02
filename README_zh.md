@@ -146,5 +146,12 @@ python client.py audio.wav --raw
 ├── client.py          # 客户端脚本
 ├── server.py          # 服务端脚本
 ├── requirements.txt   # Python 依赖
-└── README_zh.md       # 中文文档
+├── LICENSE            # MIT 许可证
+├── README.md          # 英文文档
+├── README_zh.md       # 中文文档
+└── examples/         # 示例音频文件
 ```
+
+## 许可证
+
+MIT License - 见 [LICENSE](LICENSE)

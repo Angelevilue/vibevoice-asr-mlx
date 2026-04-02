@@ -146,5 +146,12 @@ The server automatically detects audio format from file headers, not file extens
 ├── client.py          # Client script
 ├── server.py          # Server script
 ├── requirements.txt   # Python dependencies
-└── README.md          # This file
+├── LICENSE            # MIT License
+├── README.md          # This file
+├── README_zh.md       # Chinese documentation
+└── examples/         # Example audio files
 ```
+
+## License
+
+MIT License - see [LICENSE](LICENSE)
