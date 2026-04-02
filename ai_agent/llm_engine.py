@@ -245,13 +245,9 @@ class StreamingAgent:
                 logger.info(f"\n{'='*60}")
                 logger.info(f"🚀 处理：{user_query[:50]}... | 会话：{session_id[:8]}...")
                 
-                # 第 1 步：获取提示词
-                try:
-                    system_prompt = get_system_prompt()
-                    logger.info(f" 系统提示词：\n {system_prompt[:20]}")
-                except Exception as e:
-                    logger.error(f"❌ 加载系统提示词失败：{e}")
-                    system_prompt = "你是一位乐于助人的智能助手"
+                # 第 1 步：获取提示词（使用前端传来的提示词，不再使用后端提示词）
+                # system_prompt 由 ai_agent_server 在 user_query 中传递，此处使用空提示词
+                system_prompt = ""
                 
                 # 第 2 步：🔥 创建 ReAct Graph 🔥
                 try:
