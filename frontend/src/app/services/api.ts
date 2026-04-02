@@ -1,4 +1,5 @@
 const API_BASE_URL = 'http://localhost:8765';
+const AI_AGENT_URL = 'http://localhost:8766';
 
 export interface TranscriptionResponse {
   text: string;
@@ -63,6 +64,63 @@ export async function transcribeAudio(
     clearTimeout(timeoutId);
     if (error instanceof Error && error.name === 'AbortError') {
       throw new Error('请求超时，请增加超时时间');
+    }
+    throw error;
+  }
+}
+
+export interface AIProcessResponse {
+  result: string;
+  session_id: string;
+}
+
+export async function checkAIAgentHealth(): Promise<boolean> {
+  try {
+    const response = await fetch(`${AI_AGENT_URL}/health`);
+    return response.ok;
+  } catch {
+    return false;
+  }
+}
+
+export async function processWithAI(
+  transcription: string,
+  prompt: string,
+  sessionId: string = 'default',
+  onProgress?: (status: string) => void
+): Promise<AIProcessResponse> {
+  onProgress?.('正在连接 AI 服务...');
+
+  try {
+    const response = await fetch(`${AI_AGENT_URL}/ai-process`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        transcription,
+        prompt,
+        session_id: sessionId,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`AI 服务错误: ${response.status}`);
+    }
+
+    onProgress?.('AI 处理中...');
+
+    const data = await response.json();
+
+    if (data.error) {
+      throw new Error(data.error);
+    }
+
+    onProgress?.('处理完成');
+    return data;
+  } catch (error) {
+    if (error instanceof Error && error.name === 'AbortError') {
+      throw new Error('AI 处理超时');
     }
     throw error;
   }

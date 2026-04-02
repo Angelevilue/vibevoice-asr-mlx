@@ -153,6 +153,10 @@ The server automatically detects audio format from file headers, not file extens
 │   │   └── app/           # Main application
 │   ├── package.json
 │   └── vite.config.ts
+├── ai_agent/          # AI Agent service
+│   ├── ai_agent_server.py  # FastAPI server
+│   ├── llm_engine.py    # Streaming agent logic
+│   └── requirements.txt # AI Agent dependencies
 ├── LICENSE            # MIT License
 ├── README.md          # This file
 ├── README_zh.md       # Chinese documentation
@@ -189,6 +193,48 @@ The frontend development server runs on `http://localhost:5173` and connects to 
 - TailwindCSS
 - Radix UI components
 - jsPDF for PDF export
+
+## AI Agent Service
+
+The `ai_agent/` directory contains a FastAPI service that provides AI-powered text processing using customizable system prompts.
+
+### Setup
+
+```bash
+cd ai_agent
+pip install -r requirements.txt
+```
+
+### Start AI Agent Server
+
+```bash
+python ai_agent_server.py
+```
+
+The AI Agent server runs on `http://localhost:8766`.
+
+### API Endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/health` | GET | Health check |
+| `/ai-process` | POST | Process transcription with prompt |
+
+### Request Format
+
+```json
+{
+  "transcription": "transcribed text...",
+  "prompt": "system prompt content...",
+  "session_id": "optional_session_id"
+}
+```
+
+### Architecture
+
+```
+Frontend (5173) → AI Agent Server (8766) → LLM (DeepSeek/Volcengine)
+```
 
 ## License
 

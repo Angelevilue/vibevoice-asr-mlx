@@ -9,7 +9,7 @@ import { HistoryPage } from './pages/history-page';
 import { PromptsPage } from './pages/prompts-page';
 import { HistoryItem } from './history-panel';
 import { SystemPrompt } from './prompt-manager';
-import { transcribeAudio, checkServerHealth } from '../services/api';
+import { transcribeAudio, checkServerHealth, processWithAI, checkAIAgentHealth } from '../services/api';
 
 // 默认系统提示词
 const DEFAULT_PROMPTS: SystemPrompt[] = [
@@ -190,13 +190,24 @@ export function AudioTranscription() {
       return;
     }
 
+    // 检查 AI 服务连接
+    const isHealthy = await checkAIAgentHealth();
+    if (!isHealthy) {
+      toast.error('无法连接到 AI 服务，请确保 AI Agent 服务已启动');
+      return;
+    }
+
     setIsProcessing(true);
     setAiResult('');
 
-    const mockAIResponse = generateMockAIResponse(selectedPrompt.id);
+    try {
+      const response = await processWithAI(
+        transcriptionText,
+        selectedPrompt.content,
+        currentHistoryId || 'default'
+      );
 
-    setTimeout(() => {
-      setAiResult(mockAIResponse);
+      setAiResult(response.result);
       setIsProcessing(false);
       toast.success('AI 处理完成！');
 
@@ -204,67 +215,14 @@ export function AudioTranscription() {
         setHistory((prev) =>
           prev.map((item) =>
             item.id === currentHistoryId
-              ? { ...item, summary: mockAIResponse }
+              ? { ...item, summary: response.result }
               : item
           )
         );
       }
-    }, 2000);
-  };
-
-  const generateMockAIResponse = (promptId: string) => {
-    switch (promptId) {
-      case 'extract-keywords':
-        return `关键信息提取结果：
-
-**重要信息：**
-- 音频文件：${audioFile?.name}
-- 转录时间：${new Date().toLocaleString('zh-CN')}
-- 文件大小：${audioFile ? (audioFile.size / 1024).toFixed(2) + ' KB' : '未知'}
-
-**核心功能：**
-- 高准确率语音识别
-- 多种音频格式支持（MP3、WAV、M4A）
-- 灵活超时设置
-- 多格式导出（PDF、Markdown、TXT、JSON）
-- AI 智能处理
-- 历史记录管理
-
-**技术特点：**
-先进的语音识别技术，支持中英文内容识别`;
-
-      case 'summarize':
-        return `本次音频转录展示了一个功能完善的语音转录服务系统。系统支持多种音频格式，采用先进的语音识别技术进行准确转录。用户可以灵活设置超时时间，并将转录结果导出为多种格式。此外，系统还提供了 AI 智能处理和历史记录管理功能，为用户提供便捷高效的转录体验。`;
-
-      case 'meeting-notes':
-        return `会议记录整理
-
-**会议主题：** 音频转录系统功能介绍
-
-**时间：** ${new Date().toLocaleString('zh-CN')}
-
-**讨论要点：**
-1. 系统支持 MP3、WAV、M4A 等多种音频格式
-2. 采用先进的语音识别技术，支持中英文识别
-3. 提供灵活的超时时间设置选项
-4. 支持多种格式导出：PDF、Markdown、TXT、JSON
-
-**功能特性：**
-- 高准确率的语音识别引擎
-- 多格式导出选项
-- AI 智能处理能力
-- 历史记录管理系统
-
-**决议事项：**
-- 系统提供完整的转录服务流程
-- 支持用户自定义系统提示词
-
-**待办事项：**
-- 继续优化转录准确率
-- 扩展更多 AI 处理功能`;
-
-      default:
-        return 'AI 处理结果将显示在这里...';
+    } catch (error) {
+      setIsProcessing(false);
+      toast.error(error instanceof Error ? error.message : 'AI 处理失败');
     }
   };
 
