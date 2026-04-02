@@ -1,10 +1,13 @@
-import { Sparkles, Loader2, Download, Copy } from 'lucide-react';
+import { Sparkles, Loader2, Download, Copy, Eye, Edit3 } from 'lucide-react';
+import { useState } from 'react';
+import ReactMarkdown from 'react-markdown';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Label } from '../ui/label';
 import { Textarea } from '../ui/textarea';
 import { toast } from 'sonner';
 import { SystemPrompt } from '../prompt-manager';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 
 interface AIProcessPageProps {
   transcriptionText: string;
@@ -33,6 +36,8 @@ export function AIProcessPage({
   onDownloadText,
   onDownloadJSON,
 }: AIProcessPageProps) {
+  const [aiViewMode, setAiViewMode] = useState<'preview' | 'edit'>('preview');
+
   const copyToClipboard = (text: string, type: string) => {
     navigator.clipboard.writeText(text);
     toast.success(`${type}已复制到剪贴板`);
@@ -138,27 +143,58 @@ export function AIProcessPage({
                     </CardDescription>
                   </div>
                   {aiResult && (
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => copyToClipboard(aiResult, 'AI 处理结果')}
-                    >
-                      <Copy className="w-4 h-4" />
-                    </Button>
+                    <div className="flex gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setAiViewMode('preview')}
+                        className={aiViewMode === 'preview' ? 'bg-yellow-500/20' : ''}
+                      >
+                        <Eye className="w-4 h-4 mr-1" />
+                        预览
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setAiViewMode('edit')}
+                        className={aiViewMode === 'edit' ? 'bg-yellow-500/20' : ''}
+                      >
+                        <Edit3 className="w-4 h-4 mr-1" />
+                        编辑
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => copyToClipboard(aiResult, 'AI 处理结果')}
+                      >
+                        <Copy className="w-4 h-4" />
+                      </Button>
+                    </div>
                   )}
                 </div>
               </CardHeader>
               <CardContent className="flex-1 flex flex-col min-h-0 overflow-hidden">
-                <div className="flex-1 overflow-y-auto border-2 border-yellow-500/30 bg-yellow-500/5 rounded-lg min-h-0">
-                  <Textarea
-                    value={aiResult}
-                    onChange={(e) => onAIResultChange(e.target.value)}
-                    placeholder="AI 处理结果将显示在这里..."
-                    className="w-full h-full resize-none border-0 bg-transparent font-mono text-sm"
-                    style={{ minHeight: '100%' }}
-                    disabled={!aiResult}
-                  />
-                </div>
+                {aiViewMode === 'preview' ? (
+                  <div className="flex-1 overflow-y-auto border-2 border-yellow-500/30 bg-yellow-500/5 rounded-lg min-h-0 p-4">
+                    {aiResult ? (
+                      <div className="prose prose-sm dark:prose-invert max-w-none">
+                        <ReactMarkdown>{aiResult}</ReactMarkdown>
+                      </div>
+                    ) : (
+                      <p className="text-muted-foreground text-center py-8">AI 处理结果将显示在这里...</p>
+                    )}
+                  </div>
+                ) : (
+                  <div className="flex-1 overflow-y-auto border-2 border-yellow-500/30 bg-yellow-500/5 rounded-lg min-h-0">
+                    <Textarea
+                      value={aiResult}
+                      onChange={(e) => onAIResultChange(e.target.value)}
+                      placeholder="AI 处理结果将显示在这里..."
+                      className="w-full h-full resize-none border-0 bg-transparent font-mono text-sm"
+                      style={{ minHeight: '100%' }}
+                    />
+                  </div>
+                )}
 
                 {aiResult && (
                   <div className="mt-6">

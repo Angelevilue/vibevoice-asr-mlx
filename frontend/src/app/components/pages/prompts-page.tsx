@@ -80,26 +80,26 @@ export function PromptsPage({
   };
 
   return (
-    <div className="h-screen flex items-start justify-center pt-24 px-8">
-      <div className="w-full max-w-6xl space-y-6">
-        <div className="text-center space-y-3 mb-8">
+    <div className="h-screen flex flex-col items-center justify-center pt-16 px-8 pb-4 overflow-hidden">
+      <div className="w-full max-w-6xl flex flex-col h-full">
+        <div className="text-center space-y-2 mb-2 flex-shrink-0">
           <div className="flex items-center justify-center gap-3">
-            <Brain className="w-12 h-12 text-purple-500 dark:text-purple-400" />
-            <h1 className="text-6xl tracking-tight bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400 bg-clip-text text-transparent">
+            <Brain className="w-10 h-10 text-purple-500 dark:text-purple-400" />
+            <h1 className="text-5xl tracking-tight bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400 bg-clip-text text-transparent">
               提示词管理
             </h1>
           </div>
-          <p className="text-xl text-muted-foreground">管理 AI 处理的系统提示词</p>
+          <p className="text-lg text-muted-foreground">管理 AI 处理的系统提示词</p>
         </div>
 
-        <Card className="border-2 backdrop-blur-sm bg-background/50 shadow-2xl">
-          <CardHeader>
+        <Card className="border-2 backdrop-blur-sm bg-background/50 shadow-2xl flex-1 min-h-0 overflow-hidden flex flex-col">
+          <CardHeader className="flex-shrink-0">
             <div className="flex items-center justify-between">
               <div>
-                <CardTitle className="text-2xl">系统提示词库</CardTitle>
-                <CardDescription className="text-base mt-2">
-                  {selectedPromptId 
-                    ? `当前选择: ${prompts.find(p => p.id === selectedPromptId)?.name}` 
+                <CardTitle className="text-xl">系统提示词库</CardTitle>
+                <CardDescription className="text-sm mt-1">
+                  {selectedPromptId
+                    ? `当前选择: ${prompts.find(p => p.id === selectedPromptId)?.name}`
                     : '请选择一个提示词用于 AI 处理'}
                 </CardDescription>
               </div>
@@ -114,8 +114,8 @@ export function PromptsPage({
               </Button>
             </div>
           </CardHeader>
-          <CardContent>
-            <ScrollArea className="h-[600px] pr-4">
+          <CardContent className="flex-1 min-h-0 overflow-hidden">
+            <ScrollArea className="h-full pr-4">
               <div className="space-y-4">
                 {/* 添加新提示词表单 */}
                 {isAdding && (
@@ -224,8 +224,7 @@ export function PromptsPage({
                                   variant="ghost"
                                   size="icon"
                                   onClick={() => handleEdit(prompt)}
-                                  disabled={prompt.isDefault}
-                                  title={prompt.isDefault ? '默认提示词不可编辑' : '编辑'}
+                                  title="编辑"
                                 >
                                   <Edit2 className="w-4 h-4" />
                                 </Button>

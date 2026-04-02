@@ -172,9 +172,10 @@ A modern web interface is included in the `frontend/` directory.
 - **Drag & drop audio upload**: Support for WAV, MP3, M4A, OGG, FLAC
 - **Real-time transcription**: Visual progress tracking
 - **AI processing**: Process transcriptions with customizable system prompts
+- **Markdown preview**: AI results rendered with Markdown for better readability
 - **Dark/Light mode**: Theme toggle support
 - **Multiple export formats**: PDF, Markdown, TXT, JSON
-- **History management**: Browse and re-process past transcriptions
+- **History management**: Browse, select and export past transcriptions
 
 ### Setup
 
