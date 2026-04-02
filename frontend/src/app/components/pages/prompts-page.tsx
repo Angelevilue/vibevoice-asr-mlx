@@ -80,9 +80,9 @@ export function PromptsPage({
   };
 
   return (
-    <div className="h-screen flex flex-col items-center justify-center pt-20 px-8 overflow-hidden">
+    <div className="h-screen flex flex-col items-center justify-center pt-16 px-8 pb-4 overflow-hidden">
       <div className="w-full max-w-6xl flex flex-col h-full">
-        <div className="text-center space-y-2 mb-4 flex-shrink-0">
+        <div className="text-center space-y-2 mb-2 flex-shrink-0">
           <div className="flex items-center justify-center gap-3">
             <Brain className="w-10 h-10 text-purple-500 dark:text-purple-400" />
             <h1 className="text-5xl tracking-tight bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400 bg-clip-text text-transparent">
