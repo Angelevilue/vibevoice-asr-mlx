@@ -92,24 +92,24 @@ export function HistoryPage({ history, onSelect, onDelete, onClear }: HistoryPag
   };
 
   return (
-    <div className="h-screen flex items-start justify-center pt-24 px-8">
-      <div className="w-full max-w-6xl space-y-6">
-        <div className="text-center space-y-3 mb-8">
+    <div className="h-screen flex flex-col items-center justify-center pt-20 px-8 overflow-hidden">
+      <div className="w-full max-w-6xl flex flex-col h-full">
+        <div className="text-center space-y-2 mb-4 flex-shrink-0">
           <div className="flex items-center justify-center gap-3">
-            <History className="w-12 h-12 text-green-500 dark:text-green-400" />
-            <h1 className="text-6xl tracking-tight bg-gradient-to-r from-green-600 to-emerald-600 dark:from-green-400 dark:to-emerald-400 bg-clip-text text-transparent">
+            <History className="w-10 h-10 text-green-500 dark:text-green-400" />
+            <h1 className="text-5xl tracking-tight bg-gradient-to-r from-green-600 to-emerald-600 dark:from-green-400 dark:to-emerald-400 bg-clip-text text-transparent">
               历史记录
             </h1>
           </div>
-          <p className="text-xl text-muted-foreground">管理和查看转录历史</p>
+          <p className="text-lg text-muted-foreground">管理和查看转录历史</p>
         </div>
 
-        <Card className="border-2 backdrop-blur-sm bg-background/50 shadow-2xl">
-          <CardHeader>
+        <Card className="border-2 backdrop-blur-sm bg-background/50 shadow-2xl flex-1 min-h-0 overflow-hidden flex flex-col">
+          <CardHeader className="flex-shrink-0">
             <div className="flex items-center justify-between">
               <div>
-                <CardTitle className="text-2xl">所有转录记录</CardTitle>
-                <CardDescription className="text-base mt-2">
+                <CardTitle className="text-xl">所有转录记录</CardTitle>
+                <CardDescription className="text-sm mt-1">
                   共 {history.length} 条记录 {selectedIds.size > 0 && `| 已选择 ${selectedIds.size} 条`}
                 </CardDescription>
               </div>
@@ -148,7 +148,7 @@ export function HistoryPage({ history, onSelect, onDelete, onClear }: HistoryPag
               </div>
             </div>
           </CardHeader>
-          <CardContent>
+          <CardContent className="flex-1 min-h-0 overflow-hidden">
             {history.length === 0 ? (
               <div className="text-center py-20">
                 <div className="flex flex-col items-center gap-4">
@@ -160,7 +160,7 @@ export function HistoryPage({ history, onSelect, onDelete, onClear }: HistoryPag
                 </div>
               </div>
             ) : (
-              <ScrollArea className="h-[600px] pr-4">
+              <ScrollArea className="h-full pr-4">
                 <div className="mb-4 flex items-center gap-3">
                   <Checkbox
                     checked={selectedIds.size === history.length && history.length > 0}
