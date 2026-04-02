@@ -252,6 +252,18 @@ The AI Agent server runs on `http://localhost:8766`.
 Frontend (5173) → AI Agent Server (8766) → LLM (DeepSeek/Volcengine)
 ```
 
-## License
+## Future Plans
+
+- [ ] **Multi-provider LLM Support**: Configure different AI model providers
+  - Domestic models: Doubao, Qwen (optimized for China region)
+  - International models: OpenAI GPT, Anthropic Claude, etc.
+  - Local deployment: Ollama, vLLM for self-hosted models
+
+- [ ] **NVIDIA GPU Deployment**: Support VibeVoice ASR on NVIDIA GPUs
+  - CUDA acceleration for faster transcription
+  - Docker deployment for easy setup
+  - GPU memory management and batching
+
+- [ ] **iOS App**: Capacitor-based iOS application
 
 MIT License - see [LICENSE](LICENSE)

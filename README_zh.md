@@ -252,6 +252,18 @@ AI Agent 服务运行在 `http://localhost:8766`。
 前端 (5173) → AI Agent 服务 (8766) → 大模型 (DeepSeek/Volcengine)
 ```
 
-## 许可证
+## 未来计划
+
+- [ ] **多提供商 LLM 支持**：配置不同的 AI 模型提供商
+  - 国内模型：豆包、千问（针对中国区域优化）
+  - 国际模型：OpenAI GPT、Anthropic Claude 等
+  - 本地部署：Ollama、vLLM 自托管模型
+
+- [ ] **NVIDIA GPU 部署**：支持在 NVIDIA 显卡上运行 VibeVoice ASR
+  - CUDA 加速提升转录速度
+  - Docker 部署便于安装配置
+  - GPU 内存管理和批处理
+
+- [ ] **iOS 应用**：基于 Capacitor 的 iOS 应用程序
 
 MIT License - 见 [LICENSE](LICENSE)
