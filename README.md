@@ -4,6 +4,20 @@ A client-server architecture for VibeVoice-ASR-4bit speech recognition, optimize
 
 The server loads the model once and keeps it in memory, enabling fast repeated transcription requests.
 
+## Screenshots
+
+**Audio Transcription**
+![Audio Transcription](images/音频转录.png)
+
+**AI Processing**
+![AI Processing](images/AI处理.png)
+
+**Prompt Management**
+![Prompt Management](images/提示词管理.png)
+
+**History**
+![History](images/历史记录.png)
+
 ## Features
 
 - **Server-client architecture**: Model loaded once, serve many requests
@@ -177,20 +191,6 @@ A modern web interface is included in the `frontend/` directory.
 - **Multiple export formats**: PDF, Markdown, TXT, JSON
 - **History management**: Browse, select and export past transcriptions
 - **Configurable AI models**: Support for Doubao, Qwen, and DeepSeek
-
-### Screenshots
-
-**Audio Transcription**
-![Audio Transcription](images/音频转录.png)
-
-**AI Processing**
-![AI Processing](images/AI处理.png)
-
-**Prompt Management**
-![Prompt Management](images/提示词管理.png)
-
-**History**
-![History](images/历史记录.png)
 
 ### Setup
 
