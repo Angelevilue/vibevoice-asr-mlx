@@ -9,8 +9,14 @@ VibeVoice-ASR-4bit is a client-server speech recognition system optimized for Ap
 ## Commands
 
 ```bash
-# Start the server (model loads on startup, ~6GB memory)
+# Start the ASR server (model loads on startup, ~6GB memory)
 python server.py
+
+# Start AI Agent service
+cd ai_agent && python ai_agent_server.py
+
+# Start frontend (React SPA)
+cd frontend && npm install && npm run dev
 
 # Client usage
 python client.py <audio_file>                    # Default JSON format with timestamps
@@ -18,8 +24,9 @@ python client.py audio.wav -f txt                 # Plain text output
 python client.py audio.wav -o result.txt          # Save to file
 python client.py audio.wav -t 7200                # 2hr timeout for long audio
 
-# Health check
-curl http://localhost:8765/health
+# Health checks
+curl http://localhost:8765/health   # ASR server
+curl http://localhost:8766/health   # AI Agent
 ```
 
 ## Architecture
@@ -36,6 +43,20 @@ curl http://localhost:8765/health
 - Auto-detects MIME type via `mimetypes.guess_type()`
 - Parses response headers for timing information
 - Formats output based on `--format` flag (json/txt/srt/vtt)
+
+**Frontend** (`frontend/`):
+- React 18 + TypeScript + Vite SPA
+- Connects to server at `http://localhost:8765`
+- Supports drag & drop audio upload, real-time transcription, AI processing
+- Model settings modal for configuring AI providers (Doubao, Qwen, DeepSeek)
+- Export: PDF, Markdown, TXT, JSON
+- Runs on `http://localhost:5173`
+
+**AI Agent Service** (`ai_agent/`):
+- FastAPI server on port 8766
+- Streaming agent with configurable LLM providers
+- Supports: Doubao, Qwen, DeepSeek (via API)
+- Request format: `{ transcription, prompt, provider, model, apiKey, baseUrl, temperature, maxTokens }`
 
 **Audio Format Detection**:
 - Server detects format by file header bytes, not extension
@@ -56,17 +77,17 @@ Override via environment variable: `VIBEVOICE_MODEL_PATH=/path/to/model`
 
 ## API
 
-**POST /transcribe**
-- Body: Raw audio binary
-- Headers: `X-Format` (txt/json/srt/vtt), `Content-Type` (auto-detected)
-- Response: Transcription text
-- Response Headers: `X-Text-Length`, `X-Audio-Duration`, `X-Processing-Time`
+**ASR Server (port 8765)**
+- `POST /transcribe` - Body: Raw audio binary, Headers: `X-Format` (txt/json/srt/vtt), Response: Transcription text
+- `GET /health` - Response: `OK`
 
-**GET /health**
-- Response: `OK`
+**AI Agent Server (port 8766)**
+- `POST /ai-process` - Body: `{ transcription, prompt, provider, model, apiKey, baseUrl, temperature, maxTokens }`
+- `GET /health` - Response: `OK`
 
 ## Notes
 
 - Server must be restarted after code changes
 - Long audio (>10min) may require increased timeout (`-t` flag)
 - `result.segments` may be empty for some audio; always check length before accessing index 0
+- Frontend stores model config, prompts, and history in localStorage
